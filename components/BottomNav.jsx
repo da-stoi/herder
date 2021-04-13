@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 
 export default function BottomNav() {
   const router = useRouter();
-  const [value, setValue] = useState(0);
 
   return (
     <BottomNavigation

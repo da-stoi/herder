@@ -7,6 +7,7 @@ import { Button, Divider } from '@material-ui/core';
 
 export default function Scale({ scale, question, id, handleChange, data }) {
 
+  // Generate buttons for scale
   const RadioButtons = () => {
     let buttons = []
 

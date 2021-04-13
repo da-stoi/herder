@@ -7,10 +7,9 @@ import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useState } from 'react';
 import clsx from 'clsx';
-import { AddCircleOutlineRounded, AddCircleRounded, ExpandMoreRounded, PersonAddRounded, ShareRounded } from '@material-ui/icons';
+import { ExpandMoreRounded, PersonAddRounded, ShareRounded } from '@material-ui/icons';
 import { Divider } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -64,7 +63,7 @@ export default function UserCard({ user, questions }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        {/* <IconButton aria-label="add to favorites">
+        {/* <IconButton aria-label="add friend">
           <PersonAddRounded />
         </IconButton> */}
         {/* <IconButton aria-label="share">

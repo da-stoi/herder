@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import styles from '../../styles/Login.module.css';
 import { useMediaPredicate } from "react-media-hook";
 import { muiTheme } from '../../utils/theme';
+import { ContentWrapper } from '../../utils/ContentWrapper';
 
 export default function Login() {
 
   const [themeStyle, setThemeStyle] = useState({});
   const [darkMode, isDarkMode] = useState(useMediaPredicate("(prefers-color-scheme: dark)") ? true : false);
 
+  // Darkmode/lightmode switching
   // Should work, but throws an error. Circle back to this
   // if (darkMode !== useMediaPredicate("(prefers-color-scheme: dark)") ? true : false) {
   //   isDarkMode(useMediaPredicate("(prefers-color-scheme: dark)") ? true : false);
@@ -24,10 +26,11 @@ export default function Login() {
     }
   }, [darkMode]);
 
+
   const theme = createMuiTheme({
     palette: {
-      ...muiTheme,
       type: darkMode ? "dark" : "light",
+      ...muiTheme
     },
   });
 
@@ -40,8 +43,7 @@ export default function Login() {
       </Head>
 
       <ThemeProvider theme={theme}>
-        <div style={{ maxWidth: "600px", marginTop: "20px", textAlign: "center" }}>
-
+        <ContentWrapper>
           <Typography variant="h3">Herder</Typography>
           <Typography variant="subtitle1">Find your ideal roommates!</Typography>
           <br />
@@ -50,7 +52,7 @@ export default function Login() {
           <Button variant="contained" size="large" color="secondary" onClick={() => window.location.href = "../auth"}>
             Login with Discord
           </Button>
-        </div>
+        </ContentWrapper>
       </ThemeProvider>
     </div>
   )

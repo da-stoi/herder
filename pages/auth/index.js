@@ -6,6 +6,7 @@ import { useMediaPredicate } from "react-media-hook";
 import { muiTheme } from '../../utils/theme';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie'
+import { ContentWrapper } from '../../utils/ContentWrapper';
 
 export default function Auth() {
 
@@ -16,6 +17,7 @@ export default function Auth() {
   const [pageReady, setPageReady] = useState(0);
   const [updating, setUpdating] = useState(true);
 
+  // Darkmode/lightmode switching
   // Should work, but throws an error. Circle back to this
   // if (darkMode !== useMediaPredicate("(prefers-color-scheme: dark)") ? true : false) {
   //   isDarkMode(useMediaPredicate("(prefers-color-scheme: dark)") ? true : false);
@@ -30,10 +32,11 @@ export default function Auth() {
     }
   }, [darkMode]);
 
+
   const theme = createMuiTheme({
     palette: {
-      ...muiTheme,
       type: darkMode ? "dark" : "light",
+      ...muiTheme
     },
   });
 
@@ -44,6 +47,7 @@ export default function Auth() {
     setPageReady(pageReady + 1);
   }
 
+  // Redirect to profile based on accessToken in cookie or query params
   useEffect(async () => {
     if (typeof window !== 'undefined' && router.isReady) {
 
@@ -73,12 +77,11 @@ export default function Auth() {
       </Head>
 
       <ThemeProvider theme={theme}>
-        <div style={{ maxWidth: "600px", marginTop: "20px", textAlign: "center" }}>
-
+        <ContentWrapper className={styles.textCenter}>
           <Typography variant="h3">Redirecting</Typography>
           <br />
           <Link href="../">Click here if you don't get redirected.</Link>
-        </div>
+        </ContentWrapper>
       </ThemeProvider>
     </div>
   )

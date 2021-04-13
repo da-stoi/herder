@@ -9,6 +9,7 @@ import { muiTheme } from '../../utils/theme';
 import UserCard from '../../components/UserCard';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { ContentWrapper } from '../../utils/ContentWrapper';
 
 export default function Home() {
 
@@ -101,8 +102,7 @@ export default function Home() {
       </Head>
 
       <ThemeProvider theme={theme}>
-        <div style={{ maxWidth: "600px", minWidth: "300px", margin: "20px", marginBottom: "80px" }}>
-
+        <ContentWrapper className={`${styles.minWidth} ${styles.bottomMargin}`}>
           <Typography variant="h4">Search</Typography>
           <br />
           <Dropdown data={{}} label="Graduation Year" id="grad_year" options={[{ label: "2023", value: "2023" }, { label: "2024", value: "2024" }, { label: "2025", value: "2025" }, { label: "2026", value: "2026" }]} handleChange={(id, value) => setGradYear(value)} />
@@ -128,7 +128,7 @@ export default function Home() {
             <Typography variant="h5">No matches found :(</Typography>
           )
           )}
-        </div>
+        </ContentWrapper>
         <BottomNav className="mobile-nav" />
       </ThemeProvider>
     </div>

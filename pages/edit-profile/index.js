@@ -12,6 +12,7 @@ import { muiTheme } from '../../utils/theme';
 import BottomNav from '../../components/BottomNav';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { ContentWrapper } from '../../utils/ContentWrapper';
 
 export default function Home() {
 
@@ -22,11 +23,28 @@ export default function Home() {
   const [themeStyle, setThemeStyle] = useState({});
   const [darkMode, isDarkMode] = useState(useMediaPredicate("(prefers-color-scheme: dark)") ? true : false);
 
+  // Darkmode/lightmode switching
   // Should work, but throws an error. Circle back to this
   // if (darkMode !== useMediaPredicate("(prefers-color-scheme: dark)") ? true : false) {
   //   isDarkMode(useMediaPredicate("(prefers-color-scheme: dark)") ? true : false);
   // }
 
+  useEffect(() => {
+    if (darkMode) {
+      setThemeStyle({
+        backgroundColor: "#212121",
+        color: "white"
+      })
+    }
+  }, [darkMode]);
+
+
+  const theme = createMuiTheme({
+    palette: {
+      type: darkMode ? "dark" : "light",
+      ...muiTheme
+    },
+  });
 
   // Get profile and questions
   useEffect(async () => {
@@ -117,15 +135,6 @@ export default function Home() {
     window.location.href = "../profile";
   }
 
-  useEffect(() => {
-    if (darkMode) {
-      setThemeStyle({
-        backgroundColor: "#212121",
-        color: "white"
-      })
-    }
-  }, [darkMode]);
-
   const handleAnswer = (id, answer) => {
 
     if (id === "first_name" || id === "last_name" || id === "grad_year" || id === "pronouns") {
@@ -142,12 +151,6 @@ export default function Home() {
 
   }
 
-  const theme = createMuiTheme({
-    palette: {
-      type: darkMode ? "dark" : "light",
-      ...muiTheme
-    },
-  });
 
   return (
     <div className={styles.container} style={themeStyle}>
@@ -158,9 +161,10 @@ export default function Home() {
       </Head>
 
       <ThemeProvider theme={theme}>
-        <div style={{ maxWidth: "600px", marginTop: "20px", marginBottom: "80px" }}>
+        <ContentWrapper className={styles.bottomMargin}>
           <Typography variant="h4">Edit Profile</Typography>
-          <Typography variant="subtitle1">Don't forget to save your changes!</Typography>
+          <Typography variant="subtitle1">All questions are optional, but make sure you fill out Graduation Year and Pronouns to show up in searches.</Typography>
+          <Typography variant="h6">Don't forget to save your changes!</Typography>
           <br />
           <Divider />
           <br />
@@ -187,7 +191,7 @@ export default function Home() {
               <Button color="primary" variant="contained" size="large" disabled={JSON.stringify({ ...basicProfile, ...profileAnswers }) === JSON.stringify(originalProfileAnswers)} onClick={() => saveChanges()}>Save Changes</Button>
             </div>
           ) : (<CircularProgress />)}
-        </div>
+        </ContentWrapper>
         <BottomNav />
       </ThemeProvider>
     </div>

@@ -8,6 +8,7 @@ export default function MultipleChoice({ question, options, id, handleChange, da
 
   const [state, setState] = useState(data[id]);
 
+  // Update form answers state
   const onChange = (option_id, checked) => {
     setState({ ...state, [option_id]: checked });
   }

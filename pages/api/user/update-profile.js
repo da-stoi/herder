@@ -7,6 +7,7 @@ export default async (req, res) => {
     return res.status(404).send();
   }
 
+  // Update database with new profile answers
   const profile = await authUser(req, res);
   const update = await updateProfile(profile.discord_id, req.body);
 

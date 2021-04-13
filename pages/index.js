@@ -5,12 +5,14 @@ import styles from '../styles/Home.module.css';
 import { useMediaPredicate } from "react-media-hook";
 import { muiTheme } from '../utils/theme';
 import BottomNav from '../components/BottomNav';
+import { ContentWrapper } from '../utils/ContentWrapper';
 
 export default function Home() {
 
   const [themeStyle, setThemeStyle] = useState({});
   const [darkMode, isDarkMode] = useState(useMediaPredicate("(prefers-color-scheme: dark)") ? true : false);
 
+  // Darkmode/lightmode switching
   // Should work, but throws an error. Circle back to this
   // if (darkMode !== useMediaPredicate("(prefers-color-scheme: dark)") ? true : false) {
   //   isDarkMode(useMediaPredicate("(prefers-color-scheme: dark)") ? true : false);
@@ -24,6 +26,7 @@ export default function Home() {
       })
     }
   }, [darkMode]);
+
 
   const theme = createMuiTheme({
     palette: {
@@ -41,15 +44,15 @@ export default function Home() {
       </Head>
 
       <ThemeProvider theme={theme}>
-        <div style={{ maxWidth: "600px", marginTop: "20px" }}>
-          <Typography variant="h3" style={{ textAlign: "center" }}>Herder</Typography>
-          <Typography variant="h6" style={{ textAlign: "center" }}>Herder is a roommate searching app</Typography>
+        <ContentWrapper>
+          <Typography variant="h3" className={styles.textCenter}>Herder</Typography>
+          <Typography variant="h6" className={styles.textCenter}>Herder is a roommate searching app</Typography>
           <br />
           <Divider />
           <Typography variant="h6">Herder will come up in the dictionary if you look up beta testing.</Typography>
           <Typography variant="subtitle1">Things will break! Please please please report it when it does. You can email me at <Link href="mailto:daniel@stoiber.network">daniel@stoiber.network</Link> or DM me on Discord (da_stoi#4834)</Typography>
           <br />
-          <br />
+          <Typography paragraph>If you want to see any more questions added to Herder you can suggest them <Link href="https://docs.google.com/spreadsheets/d/1CCfn7HkkL-fNlRznfsVxPP8CnfibsZpYaISL16X7yVc/edit">on this Google Sheet</Link>.</Typography>
           <Divider />
           <Typography variant="h6">How to use it</Typography>
           <ol>
@@ -63,11 +66,12 @@ export default function Home() {
           </ol>
 
           <Divider />
-        </div>
+        </ContentWrapper>
         <br />
         <br />
-        <Typography variant="subtitle1" style={{ textAlign: "center" }}>Made with ❤️ by <Link href="https://daniel.stoiber.network/"><b>Daniel Stoiber</b></Link></Typography>
-        <Typography variant="subtitle1" style={{ textAlign: "center" }}>Thank you everyone on the WPI Class of 2025 server!</Typography>
+        <Typography variant="subtitle1" className={styles.textCenter}>Made with ❤️ by <Link href="https://daniel.stoiber.network/"><b>Daniel Stoiber</b></Link></Typography>
+        <Typography variant="subtitle1" className={styles.textCenter}>Thank you everyone on the WPI Class of 2025 server!</Typography>
+        <Typography variant="subtitle1" className={styles.textCenter}><Link href="https://github.com/da-stoi/herder">GitHub Repository</Link></Typography>
         <br />
         <br />
         <br />

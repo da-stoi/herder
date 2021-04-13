@@ -1,7 +1,6 @@
 import axios from "axios"
 import { stringify } from 'qs'
 import authUser from "../../../apiUtils/authUser";
-import { getUserById, addUser } from "../database/user";
 
 export default async (req, res) => {
 
@@ -9,6 +8,7 @@ export default async (req, res) => {
     return res.status(401).send('No code.');
   }
 
+  // Convert oauth2 code to access token
   const discordProfile = await axios({
     method: "POST",
     url: "https://discord.com/api/v8/oauth2/token",
@@ -31,6 +31,7 @@ export default async (req, res) => {
     return res.status(401).send(discordProfile.error_description ? discordProfile.error_description : 'Error authenticating code.');
   }
 
+  // Auth user to update or add user in database
   req.headers["x-access-token"] = discordProfile.data.access_token;
   await authUser(req, res);
 

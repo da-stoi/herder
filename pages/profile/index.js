@@ -7,6 +7,7 @@ import BottomNav from '../../components/BottomNav';
 import { muiTheme } from '../../utils/theme';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { ContentWrapper } from '../../utils/ContentWrapper';
 
 export default function Home() {
 
@@ -14,11 +15,30 @@ export default function Home() {
   const [themeStyle, setThemeStyle] = useState({});
   const [darkMode, isDarkMode] = useState(useMediaPredicate("(prefers-color-scheme: dark)") ? true : false);
 
+  // Darkmode/lightmode switching
   // Should work, but throws an error. Circle back to this
   // if (darkMode !== useMediaPredicate("(prefers-color-scheme: dark)") ? true : false) {
   //   isDarkMode(useMediaPredicate("(prefers-color-scheme: dark)") ? true : false);
   // }
 
+  useEffect(() => {
+    if (darkMode) {
+      setThemeStyle({
+        backgroundColor: "#212121",
+        color: "white"
+      })
+    }
+  }, [darkMode]);
+
+
+  const theme = createMuiTheme({
+    palette: {
+      type: darkMode ? "dark" : "light",
+      ...muiTheme
+    },
+  });
+
+  // Get user profile
   useEffect(async () => {
 
     const accessToken = Cookies.get("accessToken");
@@ -43,26 +63,11 @@ export default function Home() {
     setProfile(profileReq.data);
   }, []);
 
+  // Remove accessToken cookie and redirect to login page
   const logout = () => {
     Cookies.remove("accessToken");
     window.location.href = "../login";
   }
-
-  useEffect(() => {
-    if (darkMode) {
-      setThemeStyle({
-        backgroundColor: "#212121",
-        color: "white"
-      })
-    }
-  }, [darkMode]);
-
-  const theme = createMuiTheme({
-    palette: {
-      ...muiTheme,
-      type: darkMode ? "dark" : "light",
-    },
-  });
 
   return (
     <div className={styles.container} style={themeStyle}>
@@ -76,7 +81,8 @@ export default function Home() {
         {!profile ? (
           <CircularProgress style={{ marginTop: "40px" }} />
         ) : (
-          <div style={{ maxWidth: "600px", marginTop: "20px" }}>
+          <ContentWrapper>
+
             <Avatar style={{ width: "80px", height: "80px", margin: "0 auto" }} src={profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.discord_id}/${profile.avatar}.png` : ""} />
             <br />
             <Typography variant="h4">{profile.first_name ? profile.last_name ? `${profile.first_name} ${profile.last_name}` : profile.first_name : ""}</Typography>
@@ -86,7 +92,7 @@ export default function Home() {
             <br />
             <br />
             <Button color="secondary" variant="contained" size="large" onClick={() => logout()}>Log Out</Button>
-          </div>
+          </ContentWrapper>
         )}
         <BottomNav className="mobile-nav" />
       </ThemeProvider>

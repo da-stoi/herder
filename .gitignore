@@ -7,6 +7,7 @@
 
 # testing
 /coverage
+questions.json
 
 # next.js
 /.next/

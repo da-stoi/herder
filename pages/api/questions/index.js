@@ -3,7 +3,8 @@ import { getQuestions } from "../database/questions";
 
 export default async (req, res) => {
   await authUser(req, res);
-  const questions = await getQuestions();
 
+  // Get all profile questions
+  const questions = await getQuestions();
   return res.status(200).json(questions);
 }

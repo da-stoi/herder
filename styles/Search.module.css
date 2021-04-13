@@ -8,6 +8,14 @@
   align-items: center;
 }
 
+.bottomMargin {
+  margin-bottom: 80px;
+}
+
+.minWidth {
+  min-width: 300px;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

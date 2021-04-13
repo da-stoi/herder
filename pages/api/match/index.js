@@ -10,15 +10,15 @@ export default async (req, res) => {
     return res.status(204).json({ error: true, details: "no search params" });
   }
 
+  // Get user profile and questions
   const profile = await authUser(req, res);
   const answers = profile.form_answers
 
   const questions = await getQuestions();
 
+  // Get users that match grad_year and pronouns
   const gradYear = req.query.grad_year;
   const pronouns = req.query.pronouns;
-
-  // Get users that match grad_year and pronouns
   const strangers = await getMatchEligibleUsers(pronouns, gradYear, profile.discord_id);
 
   if (!strangers) {
@@ -41,14 +41,14 @@ export default async (req, res) => {
     let questionCount = 0;
     let questionMatches = [];
 
-    // More points the closer they are to matching answers exactly
+    // More points the lesser the delta in answers is
     scales.forEach(scale => {
 
-      // Ignore if any data is missing
       if (!scale || (!scale.scale && !scale.answers) || !scale.id || !answers[scale.id] || !strangerAnswers[scale.id]) {
         return;
       }
 
+      // Calculate score and percentage
       const maxScore = scale.scale ? scale.scale : scale.answers.length;
       const scoreDelta = Math.abs(Number(answers[scale.id]) - Number(strangerAnswers[scale.id]));
       const questionPercent = (-scoreDelta + maxScore) / maxScore;
@@ -62,7 +62,7 @@ export default async (req, res) => {
       })
     });
 
-    // Add set amount of points based on exact question match
+    // Add 100% match for exact questions
     exact.forEach(exactQuestion => {
       if (answers[exactQuestion.id] === strangerAnswers[exactQuestion.id]) {
         questionCount++
