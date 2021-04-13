@@ -21,13 +21,37 @@ export default async function authUser(req, res) {
         return res.status(401).json(discordProfile)
       }
 
-      const profile = await upsertUser(discordProfile.data);
-
-      if (!profile) {
-        return reject("unable to create user")
+      const guilds = await axios({
+        method: "GET",
+        url: "https://discord.com/api/v8/users/@me/guilds",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          authorization: `Bearer ${req.headers["x-access-token"]}`
+        }
+      })
+      if (guilds.error) {
+        reject(guilds.error_details);
+        return res.status(401).json(guilds)
+      }
+      var is_in_guild = false;
+      for (g in guilds) {
+        if (g.id == '788248729412829224') {
+          is_in_guild = true;
+        }
       }
 
-      return resolve(profile)
+      if (is_in_guild) {
+        const profile = await upsertUser(discordProfile.data);
+        if (!profile) {
+          return reject("unable to create user")
+        }
+  
+        return resolve(profile)
+      } else {
+        return reject("Need to join the right server!")
+      }
+
+
     } else {
       return reject("no access token");
     }
