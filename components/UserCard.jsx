@@ -44,7 +44,7 @@ export default function UserCard({ user, questions }) {
       <CardHeader
         avatar={
           <Avatar aria-label="profile picture" src={user.avatar ? `https://cdn.discordapp.com/avatars/${user.discord_id}/${user.avatar}.png` : ""}>
-            {user.first_name ? user.last_name ? `${user.first_name.slice(0, 1)} ${user.last_name.slice(0, 1)}` : user.first_name.slice(0, 1) : user.username.slice(0, 1)}
+            {user.first_name ? user.last_name ? `${user.first_name.slice(0, 1)}${user.last_name.slice(0, 1)}` : user.first_name.slice(0, 1) : user.username.slice(0, 1)}
           </Avatar>
         }
         // action={
@@ -58,10 +58,9 @@ export default function UserCard({ user, questions }) {
       <CardContent>
         <Typography variant="subtitle1">[Future Bio]</Typography>
         <br />
-        <br />
         <Divider />
         <Typography variant="h6" color="textSecondary" component="p">
-          {user.first_name ? user.last_name ? `${user.first_name} ${user.last_name}` : user.first_name : user.username} has a {(user.percent_match * 100).toFixed(0)}% match.
+          {(user.percent_match * 100).toFixed(0)}% match.
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -85,6 +84,7 @@ export default function UserCard({ user, questions }) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography variant="h6">Match percentage breakdown:</Typography>
+          <Typography variant="subtitle1">Shows how close you match on each specific question.</Typography>
           {user.questionMatches.length > 0 && questions ? (user.questionMatches.map(question => {
             return (<div>
               <Divider />
