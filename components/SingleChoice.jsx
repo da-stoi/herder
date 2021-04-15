@@ -13,12 +13,12 @@ export default function SingleChoice({ question, options, id, handleChange, data
   return (
     <FormControl component="fieldset">
       <FormLabel component="legend">{question}</FormLabel>
-      <RadioGroup aria-label={id} name={id} defaultValue={isBasicInfo ? data[id] : data[id].value} onChange={e => handleChange(id, e.target.value)}>
+      <RadioGroup aria-label={id} name={id} defaultValue={isBasicInfo ? data[id] : data[id]?.value} onChange={e => handleChange(id, e.target.value)}>
         {options.map(option => {
           return (
             <FormControlLabel
               value={option.value}
-              checked={isBasicInfo ? data[id] === option.value : data[id].value === option.value}
+              checked={isBasicInfo ? data[id] === option.value : data[id]?.value === option.value}
               control={<Radio color="primary" />}
               label={option.label}
               labelPlacement="right"
@@ -26,7 +26,7 @@ export default function SingleChoice({ question, options, id, handleChange, data
           );
         })}
       </RadioGroup>
-      {(isBasicInfo ? data[id] : data[id].value) ? (
+      {(isBasicInfo ? data[id] : data[id]?.value) ? (
         <Button variant="outlined" color="primary" onClick={() => handleChange(id, null)}>Clear Answer</Button>
       ) : (<div />)}
     </FormControl>

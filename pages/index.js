@@ -67,7 +67,7 @@ export default function Home() {
           <Divider />
           <Typography variant="h6">What's new?</Typography>
           <ul>
-            <li><b>Bios!</b> You can now let people know a little more about yourself in 230 character or less.</li>
+            <li><b>Bios!</b> You can now let people know a little more about yourself in 230 characters or less.</li>
             <br />
             <li><b>Question priority!</b> You can now choose how important each question is to you.</li>
           </ul>

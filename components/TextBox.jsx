@@ -5,8 +5,6 @@ export default function TextBox({ placeholder, id, handleChange, data, textarea 
 
   const [value, updateValue] = useState(data[id]);
 
-  console.log(data)
-
   const onChange = (input) => {
 
     // 220 character limit for text area
