@@ -33,7 +33,7 @@ export default function Scale({ scale, question, id, handleChange, data, hasPrio
       <FormControl component="fieldset">
         <br />
         <FormLabel component="legend">{question}</FormLabel>
-        <RadioGroup row aria-label={id} name={id} defaultValue={data[id]?.value} onChange={(e) => handleChange(id, e.target.value, data[id].priority)}>
+        <RadioGroup row aria-label={id} name={id} defaultValue={data[id]?.value} onChange={(e) => handleChange(id, e.target.value, data[id]?.priority)}>
           {RadioButtons().map(button => {
             return button;
           })}
@@ -43,22 +43,22 @@ export default function Scale({ scale, question, id, handleChange, data, hasPrio
             <br />
             <FormLabel component="legend">How important is this question to you?</FormLabel>
             <br />
-            <RadioGroup row aria-label={id} name={id} defaultValue={data[id].priority} onChange={(e) => handleChange(id, data[id].value, e.target.value)}>
+            <RadioGroup row aria-label={id} name={id} defaultValue={data[id]?.priority} onChange={(e) => handleChange(id, data[id]?.value, e.target.value)}>
               <FormControlLabel
                 value={"1"}
-                control={<Radio color="primary" checked={data[id].priority === "1"} />}
+                control={<Radio color="primary" checked={data[id]?.priority === "1"} />}
                 label={"Not Very"}
                 labelPlacement="bottom"
               />
               <FormControlLabel
                 value={"2"}
-                control={<Radio color="primary" checked={data[id].priority === "2"} />}
+                control={<Radio color="primary" checked={data[id]?.priority === "2"} />}
                 label={"Kind Of"}
                 labelPlacement="bottom"
               />
               <FormControlLabel
                 value={"3"}
-                control={<Radio color="primary" checked={data[id].priority === "3"} />}
+                control={<Radio color="primary" checked={data[id]?.priority === "3"} />}
                 label={"Very"}
                 labelPlacement="bottom"
               />
@@ -67,7 +67,7 @@ export default function Scale({ scale, question, id, handleChange, data, hasPrio
         ) : (<div />)}
         <br />
         {data[id]?.value ? (
-          <Button variant="outlined" color="primary" onClick={() => handleChange(id, null, data[id].priority)}>Clear Answer</Button>
+          <Button variant="outlined" color="primary" onClick={() => handleChange(id, null, data[id]?.priority)}>Clear Answer</Button>
         ) : (<div />)}
       </FormControl>
     </div>
