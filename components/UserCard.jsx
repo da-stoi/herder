@@ -87,8 +87,11 @@ export default function UserCard({ user, questions }) {
             return (<div>
               <Divider />
               <br />
-              <Typography variant="subtitle1">{questions[question.id]}</Typography>
-              <Typography variant="h6">{(question.percent_match * 100).toFixed(0)}% with a priority of {question.priority}</Typography>
+              <Typography variant="h6">{questions[question.id]}</Typography>
+              {question.priority ? (
+                <Typography variant="subtitle1">This is {question.priority === "1" ? "not very" : question.priority === "2" ? "kind of" : "very"} important to them.</Typography>
+              ) : (<div />)}
+              <Typography variant="h6">{(question.percent_match * 100).toFixed(0)}% match.</Typography>
               <br />
             </div>)
           })) : (
