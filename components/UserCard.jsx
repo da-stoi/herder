@@ -55,8 +55,7 @@ export default function UserCard({ user, questions }) {
         subheader={`${user.username}#${user.digits}`}
       />
       <CardContent>
-        <Typography variant="subtitle1">[Future Bio]</Typography>
-        <br />
+        <Typography variant="subtitle1">{user.bio}</Typography>
         <Divider />
         <Typography variant="h6" color="textSecondary" component="p">
           {(user.percent_match * 100).toFixed(0)}% match.
@@ -82,14 +81,14 @@ export default function UserCard({ user, questions }) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography variant="h6">Match percentage breakdown:</Typography>
+          <Typography variant="h6">Match percentage breakdown</Typography>
           <Typography variant="subtitle1">Shows how close you match on each specific question.</Typography>
           {user.questionMatches.length > 0 && questions ? (user.questionMatches.map(question => {
             return (<div>
               <Divider />
               <br />
               <Typography variant="subtitle1">{questions[question.id]}</Typography>
-              <Typography variant="h6">{(question.percent_match * 100).toFixed(0)}%</Typography>
+              <Typography variant="h6">{(question.percent_match * 100).toFixed(0)}% with a priority of {question.priority}</Typography>
               <br />
             </div>)
           })) : (

@@ -1,4 +1,4 @@
-import { Avatar, Button, CircularProgress, createMuiTheme, ThemeProvider, Typography } from '@material-ui/core';
+import { Avatar, Button, CircularProgress, createMuiTheme, Divider, ThemeProvider, Typography } from '@material-ui/core';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import styles from '../../styles/Profile.module.css';
@@ -87,6 +87,16 @@ export default function Home() {
             <br />
             <Typography variant="h4">{profile.first_name ? profile.last_name ? `${profile.first_name} ${profile.last_name}` : profile.first_name : ""}</Typography>
             <Typography variant="subtitle1">{profile.username}#{profile.digits}</Typography>
+            <br />
+            <Divider />
+            {profile.bio ? (
+              <div>
+                <br />
+                <Typography variant="subtitle1">{profile.bio}</Typography>
+                <br />
+                <Divider />
+              </div>
+            ) : (<div />)}
             <br />
             <Button color="primary" variant="contained" size="large" onClick={() => window.location.href = "../edit-profile"}>Edit Profile</Button>
             <br />

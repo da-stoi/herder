@@ -13,8 +13,8 @@ async function upsertUser({ id, username, discriminator, email, avatar }) {
 }
 
 // Update profile questions
-async function updateProfile(id, { first_name, last_name, grad_year, pronouns, profileAnswers }) {
-  return query(`UPDATE users SET first_name = $2, last_name = $3, grad_year = $4, pronouns = $5, form_answers = $6 WHERE discord_id = $1 RETURNING *`, [id, first_name, last_name, grad_year, pronouns, profileAnswers]).then(
+async function updateProfile(id, { first_name, last_name, bio, grad_year, pronouns, profileAnswers }) {
+  return query(`UPDATE users SET first_name = $2, last_name = $3, bio = $4, grad_year = $5, pronouns = $6, form_answers = $7 WHERE discord_id = $1 RETURNING *`, [id, first_name, last_name, bio, grad_year, pronouns, profileAnswers]).then(
     res => res.rows[0]
   )
 }
@@ -35,6 +35,7 @@ async function getMatchEligibleUsers(pronouns, grad_year, id) {
 	digits,
 	first_name,
 	last_name,
+  bio,
 	pronouns,
 	grad_year,
 	form_answers

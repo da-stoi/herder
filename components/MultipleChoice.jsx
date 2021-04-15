@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 export default function MultipleChoice({ question, options, id, handleChange, data }) {
 
-  const [state, setState] = useState(data[id]);
+  const [state, setState] = useState(data[id]?.value);
 
   // Update form answers state
   const onChange = (option_id, checked) => {
@@ -24,7 +24,7 @@ export default function MultipleChoice({ question, options, id, handleChange, da
         {options.map(option => {
           return (
             <FormControlLabel
-              control={<Checkbox color="primary" checked={state ? state[option.id] : false} onChange={e => onChange(option.id, e.target.checked)} />}
+              control={<Checkbox color="primary" checked={state ? state[option.value] : false} onChange={e => onChange(option.value, e.target.checked)} />}
               label={option.label}
             />
           );

@@ -64,13 +64,19 @@ export default function Home() {
             <br />
             <li>That's it! 📈 Now you can see the percentage of how closely you match with other people. You can find a person's discord username and digits on their profile card so you can reach out.</li>
           </ol>
-
+          <Divider />
+          <Typography variant="h6">What's new?</Typography>
+          <ul>
+            <li><b>Bios!</b> You can now let people know a little more about yourself in 230 character or less.</li>
+            <br />
+            <li><b>Question priority!</b> You can now choose how important each question is to you.</li>
+          </ul>
           <Divider />
         </ContentWrapper>
         <br />
         <br />
         <Typography variant="subtitle1" className={styles.textCenter}>Made with ❤️ by <Link href="https://daniel.stoiber.network/"><b>Daniel Stoiber</b></Link></Typography>
-        <Typography variant="subtitle1" className={styles.textCenter}>Thank you everyone on the WPI Class of 2025 server!</Typography>
+        <Typography variant="subtitle1" className={styles.textCenter}>Thank you everyone on the WPI Class of 2025 Discord server!</Typography>
         <Typography variant="subtitle1" className={styles.textCenter}><Link href="https://github.com/da-stoi/herder">GitHub Repository</Link></Typography>
         <br />
         <br />

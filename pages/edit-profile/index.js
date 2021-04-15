@@ -68,9 +68,29 @@ export default function Home() {
       return;
     }
 
+    const formAnswers = profileReq.data.form_answers;
+    let formKeys = Object.keys(formAnswers);
+    let oldData = false;
+
+    formKeys.forEach(key => {
+      if (typeof formAnswers[key] !== "object") {
+        oldData = true;
+      }
+    });
+
+    if (oldData) {
+      formKeys.forEach(key => {
+        profileReq.data.form_answers[key] = {
+          value: formAnswers[key],
+          priority: "1"
+        }
+      });
+    }
+
     updateBasicProfile({
       first_name: profileReq.data.first_name,
       last_name: profileReq.data.last_name,
+      bio: profileReq.data.bio,
       grad_year: profileReq.data.grad_year,
       pronouns: profileReq.data.pronouns,
     })
@@ -78,6 +98,7 @@ export default function Home() {
     setOriginalProfileAnswers({
       first_name: profileReq.data.first_name,
       last_name: profileReq.data.last_name,
+      bio: profileReq.data.bio,
       grad_year: profileReq.data.grad_year,
       pronouns: profileReq.data.pronouns,
       ...profileReq.data.form_answers
@@ -135,9 +156,9 @@ export default function Home() {
     window.location.href = "../profile";
   }
 
-  const handleAnswer = (id, answer) => {
+  const handleAnswer = (id, answer, priority) => {
 
-    if (id === "first_name" || id === "last_name" || id === "grad_year" || id === "pronouns") {
+    if (id === "first_name" || id === "last_name" || id === "bio" || id === "grad_year" || id === "pronouns") {
       updateBasicProfile({
         ...basicProfile,
         [id]: answer
@@ -145,12 +166,13 @@ export default function Home() {
     } else {
       updateProfileAnswers({
         ...profileAnswers,
-        [id]: answer
+        [id]: {
+          value: answer,
+          priority
+        }
       })
     }
-
   }
-
 
   return (
     <div className={styles.container} style={themeStyle}>
@@ -174,8 +196,10 @@ export default function Home() {
                 switch (question.type) {
                   case "text":
                     return (<div><TextBox data={{ ...profileAnswers, ...basicProfile }} id={question.id} placeholder={question.placeholder} handleChange={handleAnswer} /><br /><br /></div>);
+                  case "textarea":
+                    return (<div><TextBox data={{ ...profileAnswers, ...basicProfile }} id={question.id} placeholder={question.placeholder} handleChange={handleAnswer} textarea={true} /><br /><br /></div>);
                   case "scale":
-                    return (<div><Scale data={{ ...profileAnswers, ...basicProfile }} question={question.question} id={question.id} scale={question.scale} handleChange={handleAnswer} /><br /><br /></div>);
+                    return (<div><Scale data={{ ...profileAnswers, ...basicProfile }} question={question.question} id={question.id} scale={question.scale} handleChange={handleAnswer} hasPriority /><br /><br /></div>);
                   case "singleChoice":
                     return (<div><SingleChoice data={{ ...profileAnswers, ...basicProfile }} question={question.question} id={question.id} options={question.options} handleChange={handleAnswer} /><br /><br /></div>);
                   case "multipleChoice":
