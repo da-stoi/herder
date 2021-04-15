@@ -97,7 +97,8 @@ export default async (req, res) => {
       // Calculate priority multiplier
       const maxPriority = 3;
       const priorityDelta = Math.abs(Number(answers[scale.id].priority || "1") - Number(strangerAnswers[scale.id].priority || "1"));
-      const priorityMultiplier = (-priorityDelta + maxPriority) / maxPriority;
+      const priorityPercent = (-priorityDelta + maxPriority) / maxPriority;
+      const priorityMultiplier = priorityPercent < 1 ? priorityPercent * 1.2 : priorityPercent
 
       // Calculate final percentage
       const finalQuestionPercent = questionPercent * priorityMultiplier
@@ -107,7 +108,10 @@ export default async (req, res) => {
       questionMatches.push({
         id: scale.id,
         priority: strangerAnswers[scale.id].priority,
-        percent_match: finalQuestionPercent
+        answer: strangerAnswers[scale.id].value,
+        percent_match: finalQuestionPercent,
+        raw_percent_match: questionPercent,
+        priority_multiplier: priorityMultiplier,
       })
     });
 

@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { useState } from 'react';
 import clsx from 'clsx';
 import { ExpandMoreRounded, PersonAddRounded, ShareRounded } from '@material-ui/icons';
-import { Divider } from '@material-ui/core';
+import { Divider, Tooltip } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -93,6 +93,11 @@ export default function UserCard({ user, questions }) {
               ) : (<div />)}
               <Typography variant="h6">{(question.percent_match * 100).toFixed(0)}% match.</Typography>
               <br />
+              {question.answer ? (
+                <Tooltip title={`Priority Multiplier: ${(question.priority_multiplier * 100).toFixed(0)}%`} placement="right">
+                  <Typography variant="overline" style={{ cursor: "default" }}>Raw Match: {(question.raw_percent_match * 100).toFixed(0)}% | Answered: {question.answer}</Typography>
+                </Tooltip>
+              ) : (<div />)}
             </div>)
           })) : (
             <Typography paragraph>No questions answered</Typography>
