@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 export default function SingleChoice({ question, options, id, handleChange, data }) {
 
-  const [isBasicInfo] = useState(typeof data[id] !== "object");
+  const [isBasicInfo] = useState(id === "grad_year" || id === "pronouns");
 
   return (
     <FormControl component="fieldset">
