@@ -1,12 +1,12 @@
-import { Button, createMuiTheme, Link, ThemeProvider, Typography } from '@material-ui/core';
-import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import styles from '../../styles/Login.module.css';
+import { Button, createMuiTheme, Link, ThemeProvider, Typography } from "@material-ui/core";
+import Head from "next/head";
+import { useEffect, useState } from "react";
+import styles from "../../styles/Login.module.css";
 import { useMediaPredicate } from "react-media-hook";
-import { muiTheme } from '../../utils/theme';
-import { useRouter } from 'next/router';
-import Cookies from 'js-cookie'
-import { ContentWrapper } from '../../utils/ContentWrapper';
+import { muiTheme } from "../../utils/theme";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import { ContentWrapper } from "../../utils/ContentWrapper";
 
 export default function Auth() {
 

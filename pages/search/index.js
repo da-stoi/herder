@@ -1,15 +1,15 @@
-import { Button, CircularProgress, createMuiTheme, Divider, ThemeProvider, Typography } from '@material-ui/core';
-import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import styles from '../../styles/Search.module.css';
+import { Button, CircularProgress, createMuiTheme, Divider, ThemeProvider, Typography } from "@material-ui/core";
+import Head from "next/head";
+import { useEffect, useState } from "react";
+import styles from "../../styles/Search.module.css";
 import { useMediaPredicate } from "react-media-hook";
-import Dropdown from '../../components/Dropdown';
-import BottomNav from '../../components/BottomNav';
-import { muiTheme } from '../../utils/theme';
-import UserCard from '../../components/UserCard';
-import Cookies from 'js-cookie';
-import axios from 'axios';
-import { ContentWrapper } from '../../utils/ContentWrapper';
+import Dropdown from "../../components/Dropdown";
+import BottomNav from "../../components/BottomNav";
+import { muiTheme } from "../../utils/theme";
+import UserCard from "../../components/UserCard";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { ContentWrapper } from "../../utils/ContentWrapper";
 
 export default function Home() {
 
@@ -48,6 +48,11 @@ export default function Home() {
 
     if (!matchReq) {
       window.location.replace("../auth");
+    }
+
+    if (matchReq.error) {
+      Cookies.remove("accessToken");
+      window.location.href = "../login?error=deauthorized";
     }
 
     let strangerMatches = matchReq.data

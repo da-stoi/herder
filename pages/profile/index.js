@@ -1,13 +1,13 @@
-import { Avatar, Button, CircularProgress, createMuiTheme, Divider, ThemeProvider, Typography } from '@material-ui/core';
-import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import styles from '../../styles/Profile.module.css';
+import { Avatar, Button, CircularProgress, createMuiTheme, Divider, ThemeProvider, Typography } from "@material-ui/core";
+import Head from "next/head";
+import { useEffect, useState } from "react";
+import styles from "../../styles/Profile.module.css";
 import { useMediaPredicate } from "react-media-hook";
-import BottomNav from '../../components/BottomNav';
-import { muiTheme } from '../../utils/theme';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { ContentWrapper } from '../../utils/ContentWrapper';
+import BottomNav from "../../components/BottomNav";
+import { muiTheme } from "../../utils/theme";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { ContentWrapper } from "../../utils/ContentWrapper";
 
 export default function Home() {
 
@@ -53,11 +53,18 @@ export default function Home() {
       headers: {
         "x-access-token": accessToken
       }
+    }).catch(e => {
+      return { error: true };
     });
 
     if (!profileReq) {
       alert("Error getting profile");
       return;
+    }
+
+    if (profileReq.error) {
+      Cookies.remove("accessToken");
+      window.location.href = "../login?error=deauthorized";
     }
 
     setProfile(profileReq.data);

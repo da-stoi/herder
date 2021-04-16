@@ -1,5 +1,5 @@
 import authUser from "../../../apiUtils/authUser";
-import { getQuestions } from "../database/questions";
+import { getQuestions } from "../../../apiUtils/database/questions";
 
 export default async (req, res) => {
   await authUser(req, res);

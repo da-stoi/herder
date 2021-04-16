@@ -1,8 +1,6 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
-import authUser from "../../../apiUtils/authUser"
-import { getQuestions } from "../database/questions";
-import { getMatchEligibleUsers } from "../database/user"
+import authUser from "../../../apiUtils/authUser";
+import { getQuestions } from "../../../apiUtils/database/questions";
+import { getMatchEligibleUsers } from "../../../apiUtils/database/user";
 
 export default async (req, res) => {
 
@@ -85,12 +83,12 @@ export default async (req, res) => {
     // More points the lesser the delta in answers is
     scales.forEach(scale => {
 
-      if (!scale || (!scale.scale && !scale.answers) || !scale.id || !answers[scale.id]?.value || !strangerAnswers[scale.id]?.value) {
+      if (!scale || (!scale.scale && !scale.options) || !scale.id || !answers[scale.id]?.value || !strangerAnswers[scale.id]?.value) {
         return;
       }
 
       // Calculate score and percentage
-      const maxScore = scale.scale ? scale.scale : scale.answers.length;
+      const maxScore = scale.scale ? scale.scale : scale.options.length;
       const scoreDelta = Math.abs(Number(answers[scale.id].value) - Number(strangerAnswers[scale.id].value));
       const questionPercent = (-scoreDelta + maxScore) / maxScore;
 
@@ -101,18 +99,18 @@ export default async (req, res) => {
       const priorityMultiplier = priorityPercent < 1 ? priorityPercent * 1.2 : priorityPercent
 
       // Calculate final percentage
-      const finalQuestionPercent = questionPercent * priorityMultiplier
+      const finalQuestionPercent = questionPercent === 1 ? questionPercent : questionPercent * priorityMultiplier
       questionCount++
       score += finalQuestionPercent;
 
       questionMatches.push({
         id: scale.id,
         priority: strangerAnswers[scale.id].priority,
-        answer: strangerAnswers[scale.id].value,
+        answer: scale.scale ? strangerAnswers[scale.id].value : scale.options[strangerAnswers[scale.id].value - 1].label,
         percent_match: finalQuestionPercent,
         raw_percent_match: questionPercent,
-        priority_multiplier: priorityMultiplier,
-      })
+        priority_multiplier: questionPercent === 1 ? 1 : priorityMultiplier,
+      });
     });
 
     // Add 100% match for exact questions

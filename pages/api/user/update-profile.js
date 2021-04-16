@@ -1,5 +1,5 @@
 import authUser from "../../../apiUtils/authUser";
-import { updateProfile } from "../database/user";
+import { updateProfile } from "../../../apiUtils/database/user";
 
 export default async (req, res) => {
 

@@ -1,18 +1,18 @@
-import { Button, CircularProgress, createMuiTheme, Divider, ThemeProvider, Typography } from '@material-ui/core';
-import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import MultipleChoice from '../../components/MultipleChoice';
-import Scale from '../../components/Scale'
-import SingleChoice from '../../components/SingleChoice';
-import TextBox from '../../components/TextBox';
-import styles from '../../styles/Home.module.css';
+import { Button, CircularProgress, createMuiTheme, Divider, ThemeProvider, Typography } from "@material-ui/core";
+import Head from "next/head";
+import { useEffect, useState } from "react";
+import MultipleChoice from "../../components/MultipleChoice";
+import Scale from "../../components/Scale"
+import SingleChoice from "../../components/SingleChoice";
+import TextBox from "../../components/TextBox";
+import styles from "../../styles/Home.module.css";
 import { useMediaPredicate } from "react-media-hook";
-import Dropdown from '../../components/Dropdown';
-import { muiTheme } from '../../utils/theme';
-import BottomNav from '../../components/BottomNav';
-import Cookies from 'js-cookie';
-import axios from 'axios';
-import { ContentWrapper } from '../../utils/ContentWrapper';
+import Dropdown from "../../components/Dropdown";
+import { muiTheme } from "../../utils/theme";
+import BottomNav from "../../components/BottomNav";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { ContentWrapper } from "../../utils/ContentWrapper";
 
 export default function Home() {
 
@@ -66,6 +66,11 @@ export default function Home() {
     if (!profileReq) {
       alert("Error getting profile");
       return;
+    }
+
+    if (profileReq.error) {
+      Cookies.remove("accessToken");
+      window.location.href = "../login?error=deauthorized";
     }
 
     const formAnswers = profileReq.data.form_answers;

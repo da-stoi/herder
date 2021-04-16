@@ -1,11 +1,11 @@
-import { createMuiTheme, Divider, Link, ThemeProvider, Typography } from '@material-ui/core';
-import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import styles from '../styles/Home.module.css';
+import { createMuiTheme, Divider, Link, ThemeProvider, Typography } from "@material-ui/core";
+import Head from "next/head";
+import { useEffect, useState } from "react";
+import styles from "../styles/Home.module.css";
 import { useMediaPredicate } from "react-media-hook";
-import { muiTheme } from '../utils/theme';
-import BottomNav from '../components/BottomNav';
-import { ContentWrapper } from '../utils/ContentWrapper';
+import { muiTheme } from "../utils/theme";
+import BottomNav from "../components/BottomNav";
+import { ContentWrapper } from "../utils/ContentWrapper";
 
 export default function Home() {
 
