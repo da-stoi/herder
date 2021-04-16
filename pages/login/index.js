@@ -48,6 +48,9 @@ export default function Login() {
         case "deauthorized":
           setSnackbarMessage("You have deauthorized Herder. Please login to reauthorize.");
           break;
+        case "access_denied":
+          setSnackbarMessage("Canceled authorization. Try logging in again.");
+          break;
         default:
           return;
       }
