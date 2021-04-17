@@ -39,6 +39,14 @@ const getDormSize = (dormSize) => {
       return 3;
     case "quad":
       return 4;
+    case "five":
+      return 5;
+    case "six":
+      return 6;
+    case "seven":
+      return 7;
+    case "eight":
+      return 8;
     default:
       return 0;
   }
