@@ -67,6 +67,10 @@ export default function Home() {
           <Divider />
           <Typography variant="h6">What's new?</Typography>
           <ul>
+            <li><b>Dorm Occupancy!</b> You can now let others know how many more roommates you are looking for. (And you won't show up if you've found them all.)</li>
+            <br />
+            <li><b>Approved Server Checking!</b> Herder now makes sure that only people from approved Discord servers can sign up.</li>
+            <br />
             <li><b>Bios!</b> You can now let people know a little more about yourself in 230 characters or less.</li>
             <br />
             <li><b>Question priority!</b> You can now choose how important each question is to you.</li>

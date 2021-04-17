@@ -19,6 +19,13 @@ async function updateProfile(id, { first_name, last_name, bio, grad_year, pronou
   )
 }
 
+// Update user dorm_occupancy
+async function updateDormOccupancy(id, dormOccupancy) {
+  return query(`UPDATE users SET dorm_occupancy = $2 WHERE discord_id = $1 RETURNING *`, [id, dormOccupancy]).then(
+    res => res.rows[0]
+  )
+}
+
 // Get user by discord_id
 async function getUserById(id) {
   return query(`SELECT * FROM users WHERE discord_id = $1`, [id]).then(
@@ -38,6 +45,7 @@ async function getMatchEligibleUsers(pronouns, grad_year, id) {
   bio,
 	pronouns,
 	grad_year,
+  dorm_occupancy,
 	form_answers
 FROM
 	users
@@ -52,5 +60,6 @@ export {
   getUserById,
   upsertUser,
   getMatchEligibleUsers,
-  updateProfile
+  updateProfile,
+  updateDormOccupancy
 }

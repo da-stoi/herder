@@ -29,14 +29,34 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const getDormSize = (dormSize) => {
+  switch (dormSize) {
+    case "single":
+      return 1;
+    case "double":
+      return 2;
+    case "triple":
+      return 3;
+    case "quad":
+      return 4;
+    default:
+      return 0;
+  }
+}
+
 export default function UserCard({ user, questions }) {
 
+  const roommatesLeft = user.form_answers?.room_size?.value ? getDormSize(user.form_answers.room_size.value) - user.dorm_occupancy : 0;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  if (roommatesLeft <= 0) {
+    return (<div />);
+  }
 
   return (
     <Card className={classes.root}>
@@ -59,6 +79,7 @@ export default function UserCard({ user, questions }) {
         <Divider />
         <Typography variant="h6" color="textSecondary" component="p">
           {(user.percent_match * 100).toFixed(0)}% match.
+          {user.form_answers?.room_size?.value ? ` ${user.first_name ? user.first_name : user.username}'s dorm needs ${roommatesLeft} more roommate${roommatesLeft === 1 ? "" : "s"}.` : ""}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

@@ -1,4 +1,4 @@
-import { Avatar, Button, CircularProgress, createMuiTheme, Divider, ThemeProvider, Typography } from "@material-ui/core";
+import { Avatar, Button, CircularProgress, createMuiTheme, Divider, FormControlLabel, Slider, ThemeProvider, Typography } from "@material-ui/core";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import styles from "../../styles/Profile.module.css";
@@ -8,10 +8,20 @@ import { muiTheme } from "../../utils/theme";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { ContentWrapper } from "../../utils/ContentWrapper";
+import styled from "styled-components";
+
+const SmallWidthWrapper = styled.div`
+  margin: 0 auto;
+  max-width: 250px;
+`
 
 export default function Home() {
 
+  const accessToken = Cookies.get("accessToken");
   const [profile, setProfile] = useState();
+  const [previousDormOccupancy, updatePreviousDormOccupancy] = useState(1);
+  const [dormOccupancy, updateDormOccupancy] = useState(1);
+  const [updatingDormOccupancy, setUpdatingDormOccupancy] = useState(false);
   const [themeStyle, setThemeStyle] = useState({});
   const [darkMode, isDarkMode] = useState(useMediaPredicate("(prefers-color-scheme: dark)") ? true : false);
 
@@ -38,10 +48,58 @@ export default function Home() {
     },
   });
 
+  const getDormSliderMax = (dormSize) => {
+    switch (dormSize) {
+      case "single":
+        return 1;
+      case "double":
+        return 2;
+      case "triple":
+        return 3;
+      case "quad":
+        return 4;
+      default:
+        return 0;
+    }
+  }
+
+  const handleDormOccupancyChange = (value) => {
+    if (value !== dormOccupancy) {
+      updateDormOccupancy(value);
+      return;
+    }
+
+    return;
+  }
+
+  const saveDormOccupancy = async () => {
+
+    setUpdatingDormOccupancy(true);
+
+    const updateDormOccupancyReq = await axios({
+      method: "POST",
+      url: "../api/user/update-profile",
+      headers: {
+        "x-access-token": accessToken
+      },
+      data: {
+        dorm_occupancy: dormOccupancy
+      }
+    }).catch(e => {
+      return { error: true };
+    });
+
+    if (!updateDormOccupancyReq || updateDormOccupancyReq.error) {
+      alert("Error updating dorm occupancy");
+      return;
+    }
+
+    updatePreviousDormOccupancy(updateDormOccupancyReq.data.dorm_occupancy);
+    setUpdatingDormOccupancy(false);
+  }
+
   // Get user profile
   useEffect(async () => {
-
-    const accessToken = Cookies.get("accessToken");
 
     if (!accessToken) {
       window.location.replace("../auth");
@@ -68,6 +126,8 @@ export default function Home() {
     }
 
     setProfile(profileReq.data);
+    updateDormOccupancy(profileReq.data.dorm_occupancy);
+    updatePreviousDormOccupancy(profileReq.data.dorm_occupancy);
   }, []);
 
   // Remove accessToken cookie and redirect to login page
@@ -100,6 +160,40 @@ export default function Home() {
               <div>
                 <br />
                 <Typography variant="subtitle1">{profile.bio}</Typography>
+                <br />
+                <Divider />
+              </div>
+            ) : (<div />)}
+            {profile.form_answers?.room_size?.value ? (
+              <div>
+                <br />
+                <SmallWidthWrapper>
+                  <FormControlLabel
+                    control={<Slider
+                      defaultValue={1}
+                      value={dormOccupancy}
+                      aria-labelledby="discrete-slider"
+                      valueLabelDisplay="auto"
+                      step={1}
+                      marks
+                      min={1}
+                      max={getDormSliderMax(profile.form_answers.room_size.value)}
+                      onChange={(event, value) => handleDormOccupancyChange(value)}
+                    />}
+                    label="How full is your future dorm?"
+                    labelPlacement="top"
+                  />
+                </SmallWidthWrapper>
+                {previousDormOccupancy !== dormOccupancy ? (
+                  <div>
+                    {updatingDormOccupancy ? (
+                      <CircularProgress />
+                    ) : (
+                      <Button variant="outlined" onClick={() => saveDormOccupancy()}>Save</Button>
+                    )}
+                    <br />
+                  </div>
+                ) : (<div />)}
                 <br />
                 <Divider />
               </div>
