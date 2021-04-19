@@ -51,15 +51,18 @@ export default function Auth() {
   useEffect(async () => {
     if (typeof window !== 'undefined' && router.isReady) {
 
+      // No accessToken -> Redirect to Discord auth
       if (!router.query.accessToken && !accessTokenCookie) {
         return window.location.href = process.env.NEXT_PUBLIC_DISCORD_AUTH_URI;
       }
 
+      // Set accessToken cookie and redirect to profile
       if (router.query.accessToken) {
         Cookies.set("accessToken", router.query.accessToken);
         window.location.replace("../profile");
       }
 
+      // Redirect to profile
       if (accessTokenCookie) {
         window.location.replace("../profile");
       }

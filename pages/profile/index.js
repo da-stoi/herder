@@ -48,6 +48,7 @@ export default function Home() {
     },
   });
 
+  // Convert dorm size answer into number
   const getDormSliderMax = (dormSize) => {
     switch (dormSize) {
       case "single":
@@ -71,6 +72,7 @@ export default function Home() {
     }
   }
 
+  // Handle room occupancy slider change
   const handleDormOccupancyChange = (value) => {
     if (value !== dormOccupancy) {
       updateDormOccupancy(value);
@@ -80,6 +82,7 @@ export default function Home() {
     return;
   }
 
+  // Update room occupancy in database
   const saveDormOccupancy = async () => {
 
     setUpdatingDormOccupancy(true);

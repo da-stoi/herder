@@ -36,34 +36,37 @@ export default function Login() {
     }
   }, [darkMode]);
 
-  useEffect(() => {
-    if (router.isReady) {
-      switch (router.query.error) {
-        case "no_guild_scope":
-          setSnackbarMessage("Guild permission not given. Please login again.");
-          break;
-        case "no_server_joined":
-          setSnackbarMessage("You are not part of an approved Discord server.");
-          break;
-        case "deauthorized":
-          setSnackbarMessage("You have deauthorized Herder. Please login to reauthorize.");
-          break;
-        case "access_denied":
-          setSnackbarMessage("Canceled authorization. Try logging in again.");
-          break;
-        default:
-          return;
-      }
-      setSnackbarOpen(true);
-    }
-  }, [router.isReady]);
-
   const theme = createMuiTheme({
     palette: {
       type: darkMode ? "dark" : "light",
       ...muiTheme
     },
   });
+
+  // Display error message
+  useEffect(() => {
+    if (router.isReady) {
+      if (router.query.error) {
+        switch (router.query.error) {
+          case "no_guild_scope":
+            setSnackbarMessage("Guild permission not given. Please login again.");
+            break;
+          case "no_server_joined":
+            setSnackbarMessage("You are not part of an approved Discord server.");
+            break;
+          case "deauthorized":
+            setSnackbarMessage("You have deauthorized Herder. Please login to reauthorize.");
+            break;
+          case "access_denied":
+            setSnackbarMessage("Canceled authorization. Try logging in again.");
+            break;
+          default:
+            return;
+        }
+        setSnackbarOpen(true);
+      }
+    }
+  }, [router.isReady]);
 
   return (
     <div className={styles.container} style={themeStyle}>

@@ -62,7 +62,7 @@ export default function UserCard({ user, questions }) {
     setExpanded(!expanded);
   };
 
-  if (roommatesLeft <= 0) {
+  if (roommatesLeft < 0) {
     return (<div />);
   }
 

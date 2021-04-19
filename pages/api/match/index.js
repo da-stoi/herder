@@ -54,6 +54,7 @@ export default async (req, res) => {
     return question.rank_type === "exact" ? true : false;
   }, {});
 
+  // Calculate percentages of all match eligible users
   const strangerScores = strangers.map(stranger => {
     let strangerAnswers = stranger.form_answers;
     let score = 0;

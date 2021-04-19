@@ -161,6 +161,7 @@ export default function Home() {
     window.location.href = "../profile";
   }
 
+  // Update state on question answer change
   const handleAnswer = (id, answer, priority) => {
 
     if (id === "first_name" || id === "last_name" || id === "bio" || id === "grad_year" || id === "pronouns") {

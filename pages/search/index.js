@@ -27,8 +27,25 @@ export default function Home() {
   //   isDarkMode(useMediaPredicate("(prefers-color-scheme: dark)") ? true : false);
   // }
 
+  useEffect(() => {
+    if (darkMode) {
+      setThemeStyle({
+        backgroundColor: "#212121",
+        color: "white"
+      })
+    }
+  }, [darkMode]);
+
+  const theme = createMuiTheme({
+    palette: {
+      ...muiTheme,
+      type: darkMode ? "dark" : "light",
+    },
+  });
+
   const findMatches = async () => {
 
+    // Gets access token from cookies
     const accessToken = Cookies.get("accessToken");
 
     if (!accessToken) {
@@ -38,6 +55,7 @@ export default function Home() {
     updateGotMatches(true);
     updateGettingMatches(true);
 
+    // Gets matches
     const matchReq = await axios({
       method: "GET",
       url: `../api/match?grad_year=${gradYear}&pronouns=${pronouns}`,
@@ -55,6 +73,7 @@ export default function Home() {
       window.location.href = "../login?error=deauthorized";
     }
 
+    // Ranks matches from highest to lowest 
     let strangerMatches = matchReq.data
     strangerMatches.sort((a, b) => {
       return b.percent_match - a.percent_match;
@@ -63,6 +82,7 @@ export default function Home() {
     setMatches(strangerMatches);
     updateGettingMatches(false);
 
+    // Gets questions for percentage breakdown
     const questionsReq = await axios({
       method: "GET",
       url: "../api/questions",
@@ -83,21 +103,6 @@ export default function Home() {
     setQuestions(reducedQuestions);
   }
 
-  useEffect(() => {
-    if (darkMode) {
-      setThemeStyle({
-        backgroundColor: "#212121",
-        color: "white"
-      })
-    }
-  }, [darkMode]);
-
-  const theme = createMuiTheme({
-    palette: {
-      ...muiTheme,
-      type: darkMode ? "dark" : "light",
-    },
-  });
   return (
     <div className={styles.container} style={themeStyle}>
       <Head>
