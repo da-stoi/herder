@@ -57,12 +57,27 @@ export default function UserCard({ user, questions }) {
   const roommatesLeft = user.form_answers?.room_size?.value ? getDormSize(user.form_answers.room_size.value) - user.dorm_occupancy : 0;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+  let pronouns = "";
+
+  switch (user.pronouns) {
+    case "he":
+      pronouns = "He/Him";
+      break;
+    case "she":
+      pronouns = "She/Her";
+      break;
+    case "they":
+      pronouns = "They/Them";
+      break;
+    default:
+      break;
+  }
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  if (roommatesLeft < 0) {
+  if (user.form_answers?.room_size?.value && roommatesLeft <= 0) {
     return (<div />);
   }
 
@@ -79,7 +94,7 @@ export default function UserCard({ user, questions }) {
         //     <MoreVertIcon />
         //   </IconButton>
         // }
-        title={user.first_name ? user.last_name ? `${user.first_name} ${user.last_name}` : user.first_name : user.username}
+        title={`${user.first_name ? user.last_name ? `${user.first_name} ${user.last_name}` : user.first_name : user.username} ${pronouns ? ` (${pronouns})` : ""}`}
         subheader={`${user.username}#${user.digits}`}
       />
       <CardContent>

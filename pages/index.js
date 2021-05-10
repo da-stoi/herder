@@ -46,11 +46,11 @@ export default function Home() {
       <ThemeProvider theme={theme}>
         <ContentWrapper>
           <Typography variant="h3" className={styles.textCenter}>Herder</Typography>
-          <Typography variant="h6" className={styles.textCenter}>Herder is a roommate searching app</Typography>
+          <Typography variant="h6" className={styles.textCenter}>A student-made roommate matching website</Typography>
           <br />
           <Divider />
-          <Typography variant="h6">Herder will come up in the dictionary if you look up beta testing.</Typography>
-          <Typography variant="subtitle1">Things will break! Please please please report it when it does. You can email me at <Link href="mailto:daniel@stoiber.network">daniel@stoiber.network</Link> or DM me on Discord (da_stoi#4834)</Typography>
+          <Typography variant="h6">Herder is a student-made roommate matching web app.</Typography>
+          <Typography variant="subtitle1">Things may break! It would be super helpful to report an issue if you see one. You can email me at <Link href="mailto:daniel@stoiber.network">daniel@stoiber.network</Link> or DM me on Discord (da_stoi#4834)</Typography>
           <br />
           <Typography paragraph>If you want to see any more questions added to Herder you can suggest them <Link href="https://docs.google.com/spreadsheets/d/1CCfn7HkkL-fNlRznfsVxPP8CnfibsZpYaISL16X7yVc/edit">on this Google Sheet</Link>.</Typography>
           <Divider />
@@ -67,6 +67,8 @@ export default function Home() {
           <Divider />
           <Typography variant="h6">What's new?</Typography>
           <ul>
+            <li><b>Multi-Pronoun Search!</b> You can now select multiple pronouns to search by. Results will be mixed together in match percentage order.</li>
+            <br />
             <li><b>Dorm Occupancy!</b> You can now let others know how many more roommates you are looking for. (And you won't show up if you've found them all.)</li>
             <br />
             <li><b>Approved Server Checking!</b> Herder now makes sure that only people from approved Discord servers can sign up.</li>
@@ -77,8 +79,6 @@ export default function Home() {
           </ul>
           <Divider />
         </ContentWrapper>
-        <br />
-        <br />
         <Typography variant="subtitle1" className={styles.textCenter}>Made with ❤️ by <Link href="https://daniel.stoiber.network/"><b>Daniel Stoiber</b></Link></Typography>
         <Typography variant="subtitle1" className={styles.textCenter}>Thank you everyone on the WPI Class of 2025 Discord server!</Typography>
         <Typography variant="subtitle1" className={styles.textCenter}><Link href="https://github.com/da-stoi/herder">GitHub Repository</Link></Typography>

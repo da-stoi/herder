@@ -6,11 +6,12 @@ import { getApprovedServers } from "../../../apiUtils/database/approvedServers";
 
 export default async (req, res) => {
 
-
+  // Discord auth cancel
   if (req.query.error) {
     return res.redirect(`../../login?error=${req.query.error}`);
   }
 
+  // No code query param
   if (!req.query.code) {
     return res.status(401).send('No code.');
   }
@@ -47,11 +48,12 @@ export default async (req, res) => {
   // Get all servers the user has joined
   const allUserServers = await getDiscordApi("users/@me/guilds", discordProfile.data.access_token);
 
+  // No guild permissions
   if (allUserServers.status === 401) {
     return res.redirect("../../login?error=no_guild_scope");
   }
 
-  // Check which approved servers the user joined
+  // Check which approved servers user joined
   const joinedApprovedServers = allUserServers.filter(server => {
     if (approvedServers.indexOf(server.id) > -1) {
       return true;
@@ -59,11 +61,12 @@ export default async (req, res) => {
     return false;
   });
 
+  // No approved servers joined
   if (joinedApprovedServers.length === 0) {
     return res.redirect("../../login?error=no_server_joined");
   }
 
-  // Auth user to update or add user in database
+  // Auth to upsert user in database
   req.headers["x-access-token"] = discordProfile.data.access_token;
   await authUser(req, res);
 

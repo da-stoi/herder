@@ -1,4 +1,4 @@
-import { Button, CircularProgress, createMuiTheme, Divider, ThemeProvider, Typography } from "@material-ui/core";
+import { Button, Checkbox, CircularProgress, createMuiTheme, Divider, FormControl, FormControlLabel, FormGroup, FormLabel, ThemeProvider, Typography } from "@material-ui/core";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import styles from "../../styles/Search.module.css";
@@ -18,7 +18,7 @@ export default function Home() {
   const [gotMatches, updateGotMatches] = useState(false);
   const [gettingMatches, updateGettingMatches] = useState(false);
   const [gradYear, setGradYear] = useState();
-  const [pronouns, setPronouns] = useState();
+  const [pronouns, setPronouns] = useState({ he: false, she: false, they: false });
   const [themeStyle, setThemeStyle] = useState({});
   const [darkMode, isDarkMode] = useState(useMediaPredicate("(prefers-color-scheme: dark)") ? true : false);
 
@@ -55,10 +55,19 @@ export default function Home() {
     updateGotMatches(true);
     updateGettingMatches(true);
 
+    const checkedPronouns = Object.keys(pronouns).filter(pronoun => {
+      if (pronouns[pronoun]) {
+        return true;
+      }
+
+      return false;
+    });
+
+
     // Gets matches
     const matchReq = await axios({
       method: "GET",
-      url: `../api/match?grad_year=${gradYear}&pronouns=${pronouns}`,
+      url: `../api/match?grad_year=${gradYear}&pronouns=${checkedPronouns.join(",")}`,
       headers: {
         "x-access-token": accessToken
       }
@@ -118,10 +127,27 @@ export default function Home() {
           <Dropdown data={{}} label="Graduation Year" id="grad_year" options={[{ label: "2023", value: "2023" }, { label: "2024", value: "2024" }, { label: "2025", value: "2025" }, { label: "2026", value: "2026" }]} handleChange={(id, value) => setGradYear(value)} />
           <br />
           <br />
-          <Dropdown data={{}} label="Pronouns" id="pronouns" options={[{ label: "He/Him", value: "he" }, { label: "She/Her", value: "she" }, { label: "They/Them", value: "they" }]} handleChange={(id, value) => setPronouns(value)} />
+          {/* <Dropdown data={{}} label="Pronouns" id="pronouns" options={[{ label: "He/Him", value: "he" }, { label: "She/Her", value: "she" }, { label: "They/Them", value: "they" }]} handleChange={(id, value) => setPronouns(value)} /> */}
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Pronouns</FormLabel>
+            <FormGroup aria-label="pronouns" name="Pronouns" defaultValue="">
+              <FormControlLabel
+                control={<Checkbox color="primary" checked={pronouns.he} onChange={e => setPronouns({ ...pronouns, he: !pronouns.he })} />}
+                label="He/Him"
+              />
+              <FormControlLabel
+                control={<Checkbox color="primary" checked={pronouns.she} onChange={e => setPronouns({ ...pronouns, she: !pronouns.she })} />}
+                label="She/Her"
+              />
+              <FormControlLabel
+                control={<Checkbox color="primary" checked={pronouns.they} onChange={e => setPronouns({ ...pronouns, they: !pronouns.they })} />}
+                label="They/Them"
+              />
+            </FormGroup>
+          </FormControl>
           <br />
           <br />
-          <Button variant="contained" color="primary" size="large" disabled={gradYear && pronouns ? false : true} onClick={() => findMatches()}>Search</Button>
+          <Button variant="contained" color="primary" size="large" disabled={!gradYear || (!pronouns.he && !pronouns.she && !pronouns.they) ? true : false} onClick={() => findMatches()}>Search</Button>
           <br />
           <br />
           <Divider />

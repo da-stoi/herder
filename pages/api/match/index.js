@@ -2,6 +2,22 @@ import authUser from "../../../apiUtils/authUser";
 import { getQuestions } from "../../../apiUtils/database/questions";
 import { getMatchEligibleUsers } from "../../../apiUtils/database/user";
 
+async function getEligibleUsers(pronouns, gradYear, id) {
+
+  let eligibleUsers = []
+
+  for (const i in pronouns) {
+    const pronoun = pronouns[i];
+    const users = await getMatchEligibleUsers(pronoun, gradYear, id);
+    eligibleUsers = [
+      ...eligibleUsers,
+      ...users
+    ]
+  }
+
+  return eligibleUsers;
+}
+
 export default async (req, res) => {
 
   if (!req.query.grad_year || !req.query.pronouns) {
@@ -37,8 +53,8 @@ export default async (req, res) => {
 
   // Get users that match grad_year and pronouns
   const gradYear = req.query.grad_year;
-  const pronouns = req.query.pronouns;
-  const strangers = await getMatchEligibleUsers(pronouns, gradYear, profile.discord_id);
+  const pronouns = req.query.pronouns.split(",");
+  const strangers = await getEligibleUsers(pronouns, gradYear, profile.discord_id);
 
   if (!strangers) {
     return res.status(204).json({ error: true, details: "no eligible matches found" });
