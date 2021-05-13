@@ -1,23 +1,13 @@
 import { FormControl, InputLabel, OutlinedInput } from "@material-ui/core";
 import { useEffect, useState } from "react";
 
-export default function TextBox({ placeholder, id, handleChange, data, textarea }) {
+export default function TextBox({ placeholder, id, handleChange, value, textarea }) {
 
-  const [value, updateValue] = useState(data[id]);
-
-  const onChange = (input) => {
-
-    // 220 character limit for text area
-    if (textarea && input.length > 230) {
-      return;
-    }
-
-    updateValue(input);
+  const onChange = (e) => {
+    e.preventDefault();
+    
+    handleChange(id, e.target.value);
   }
-
-  useEffect(() => {
-    handleChange(id, value);
-  }, [value])
 
   return (
     <FormControl fullWidth variant="outlined">
@@ -25,7 +15,7 @@ export default function TextBox({ placeholder, id, handleChange, data, textarea 
       <OutlinedInput
         id={id}
         value={value}
-        onChange={e => onChange(e.target.value)}
+        onChange={e => onChange(e)}
         labelWidth={placeholder.length * 8}
         multiline={textarea}
         rows={2}

@@ -165,6 +165,12 @@ export default function Home() {
   const handleAnswer = (id, answer, priority) => {
 
     if (id === "first_name" || id === "last_name" || id === "bio" || id === "grad_year" || id === "pronouns") {
+
+      // 220 character limit for text area
+      if (id === "bio" && answer.length > 230) {
+        answer = answer.substring(0, 230);
+      }
+
       updateBasicProfile({
         ...basicProfile,
         [id]: answer
@@ -201,9 +207,9 @@ export default function Home() {
               {questions.map(question => {
                 switch (question.type) {
                   case "text":
-                    return (<div><TextBox data={{ ...profileAnswers, ...basicProfile }} id={question.id} placeholder={question.placeholder} handleChange={handleAnswer} /><br /><br /></div>);
+                    return (<div><TextBox value={{ ...profileAnswers, ...basicProfile }[question.id]} id={question.id} placeholder={question.placeholder} handleChange={handleAnswer} /><br /><br /></div>);
                   case "textarea":
-                    return (<div><TextBox data={{ ...profileAnswers, ...basicProfile }} id={question.id} placeholder={question.placeholder} handleChange={handleAnswer} textarea={true} /><br /><br /></div>);
+                    return (<div><TextBox value={{ ...profileAnswers, ...basicProfile }[question.id]} id={question.id} placeholder={question.placeholder} handleChange={handleAnswer} textarea={true} /><br /><br /></div>);
                   case "scale":
                     return (<div><Scale data={{ ...profileAnswers, ...basicProfile }} question={question.question} id={question.id} scale={question.scale} handleChange={handleAnswer} hasPriority /><br /><br /></div>);
                   case "singleChoice":

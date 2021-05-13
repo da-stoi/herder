@@ -15,6 +15,11 @@
   margin-bottom: 80px!important;
 }
 
+.iconWrap {
+  vertical-align: middle;
+  display: inline-flex;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

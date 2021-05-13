@@ -56,7 +56,7 @@ export default function Home() {
           <Divider />
           <Typography variant="h6">How to use it</Typography>
           <ol>
-            <li><Link href="../login">Login with Discord</Link></li>
+            <li>Make sure you are on one of the approved Discord servers. (WPI Main or WPI Class of 2025) Send me a DM (da_stoi#4834) if you need an invite link. Then <Link href="../login">login with Discord</Link>.</li>
             <br />
             <li>Go to <Link href="../profile"><b>Profile</b></Link>, and select <b>Edit Profile</b>. Then fill in as many questions as possible and <b>press save changes</b>.</li>
             <br />
@@ -74,14 +74,12 @@ export default function Home() {
             <li><b>Approved Server Checking!</b> Herder now makes sure that only people from approved Discord servers can sign up.</li>
             <br />
             <li><b>Bios!</b> You can now let people know a little more about yourself in 230 characters or less.</li>
-            <br />
-            <li><b>Question priority!</b> You can now choose how important each question is to you.</li>
           </ul>
           <Divider />
         </ContentWrapper>
         <Typography variant="subtitle1" className={styles.textCenter}>Made with ❤️ by <Link href="https://daniel.stoiber.network/"><b>Daniel Stoiber</b></Link></Typography>
         <Typography variant="subtitle1" className={styles.textCenter}>Thank you everyone on the WPI Class of 2025 Discord server!</Typography>
-        <Typography variant="subtitle1" className={styles.textCenter}><Link href="https://github.com/da-stoi/herder">GitHub Repository</Link></Typography>
+        <Typography variant="subtitle1" className={styles.textCenter}><Link href="https://github.com/da-stoi/herder">GitHub Repository</Link> | <Link href="../policies/simple-privacy">Privacy Policy</Link></Typography>
         <br />
         <br />
         <br />

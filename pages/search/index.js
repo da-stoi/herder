@@ -127,7 +127,6 @@ export default function Home() {
           <Dropdown data={{}} label="Graduation Year" id="grad_year" options={[{ label: "2023", value: "2023" }, { label: "2024", value: "2024" }, { label: "2025", value: "2025" }, { label: "2026", value: "2026" }]} handleChange={(id, value) => setGradYear(value)} />
           <br />
           <br />
-          {/* <Dropdown data={{}} label="Pronouns" id="pronouns" options={[{ label: "He/Him", value: "he" }, { label: "She/Her", value: "she" }, { label: "They/Them", value: "they" }]} handleChange={(id, value) => setPronouns(value)} /> */}
           <FormControl component="fieldset">
             <FormLabel component="legend">Pronouns</FormLabel>
             <FormGroup aria-label="pronouns" name="Pronouns" defaultValue="">
