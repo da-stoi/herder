@@ -49,12 +49,11 @@ export default function Home() {
           <Typography variant="h6" className={styles.textCenter}>A student-made roommate matching website</Typography>
           <br />
           <Divider />
-          <Typography variant="h6">Herder is a student-made roommate matching web app.</Typography>
+          <Typography variant="h6">Herder is a student-made roommate matching website.</Typography>
           <Typography variant="subtitle1">Things may break! It would be super helpful to report an issue if you see one. You can email me at <Link href="mailto:daniel@stoiber.network">daniel@stoiber.network</Link> or DM me on Discord (da_stoi#4834)</Typography>
           <br />
-          <Typography paragraph>If you want to see any more questions added to Herder you can suggest them <Link href="https://docs.google.com/spreadsheets/d/1CCfn7HkkL-fNlRznfsVxPP8CnfibsZpYaISL16X7yVc/edit">on this Google Sheet</Link>.</Typography>
           <Divider />
-          <Typography variant="h6">How to use it</Typography>
+          <Typography variant="h6">How to find new roommates</Typography>
           <ol>
             <li>Make sure you are on one of the approved Discord servers. (WPI Main or WPI Class of 2025) Send me a DM (da_stoi#4834) if you need an invite link. Then <Link href="../login">login with Discord</Link>.</li>
             <br />
@@ -65,15 +64,24 @@ export default function Home() {
             <li>That's it! 📈 Now you can see the percentage of how closely you match with other people. You can find a person's discord username and digits on their profile card so you can reach out.</li>
           </ol>
           <Divider />
+          <Typography variant="h6">How to see your roommates</Typography>
+          <ol>
+            <li>Click on the Roommates tab at the bottom.</li>
+            <br />
+            <li>If you haven't selected your room yet, select your residence hall and room.</li>
+            <br />
+            <li>That's it! Now you can see a list of all the people that have marked themselves as being in the same room.</li>
+          </ol>
+          <Divider />
           <Typography variant="h6">What's new?</Typography>
           <ul>
+            <li><b>Roommate View!</b> You can now see a list of all of your roommates.</li>
+            <br />
             <li><b>Multi-Pronoun Search!</b> You can now select multiple pronouns to search by. Results will be mixed together in match percentage order.</li>
             <br />
             <li><b>Dorm Occupancy!</b> You can now let others know how many more roommates you are looking for. (And you won't show up if you've found them all.)</li>
             <br />
             <li><b>Approved Server Checking!</b> Herder now makes sure that only people from approved Discord servers can sign up.</li>
-            <br />
-            <li><b>Bios!</b> You can now let people know a little more about yourself in 230 characters or less.</li>
           </ul>
           <Divider />
         </ContentWrapper>

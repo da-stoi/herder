@@ -1,7 +1,6 @@
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import { useState } from 'react';
-import { AccountCircleRounded, HomeRounded, SearchRounded } from '@material-ui/icons';
+import { AccountCircleRounded, HomeRounded, MeetingRoomRounded, SearchRounded } from '@material-ui/icons';
 import { useRouter } from 'next/router';
 
 export default function BottomNav() {
@@ -17,6 +16,7 @@ export default function BottomNav() {
       showLabels
     >
       <BottomNavigationAction label="Home" value="" icon={<HomeRounded />} />
+      <BottomNavigationAction label="Roommates" value="roommates" icon={<MeetingRoomRounded />} />
       <BottomNavigationAction label="Search" value="search" icon={<SearchRounded />} />
       <BottomNavigationAction label="Profile" value="profile" icon={<AccountCircleRounded />} />
     </BottomNavigation>

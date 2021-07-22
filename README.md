@@ -64,7 +64,24 @@ Body should contain all profile questions answered by the user.
 
 Returns updated profile.
 
+### Get Residence Halls
+> __GET__ `/halls`
+
+Returns JSON object of all residence halls.
+
+### Match
+> __GET__ `/halls/{hall_id}/rooms`
+
+Returns JSON object of all rooms in a specified residence hall.
+
+Parameters
+|Param      |Description      |Required|
+|-----------|-----------------|--------|
+|`hall_id`  |Residence Hall Id|`true`  |
+
 ---
 <p align="center">
+  Made with ❤️ by <a href="https://daniel.stoiber.network">Daniel Stoiber</a>
+  <br>
   Thank you everyone on the WPI Class of 2025 server!
 </p>

@@ -165,6 +165,9 @@ export default function Home() {
             <br />
             <Typography variant="h4">{profile.first_name ? profile.last_name ? `${profile.first_name} ${profile.last_name}` : profile.first_name : ""}</Typography>
             <Typography variant="subtitle1">{profile.username}#{profile.digits}</Typography>
+            {profile.room_id ? (
+              <Typography variant="h5">Room: {profile.room_id}</Typography>
+            ) : (<div />)}
             <br />
             <Divider />
             {profile.bio ? (
@@ -175,7 +178,8 @@ export default function Home() {
                 <Divider />
               </div>
             ) : (<div />)}
-            {profile.form_answers?.room_size?.value ? (
+            {/* Temporarily disabling future dorm size selection */}
+            {/* {profile.form_answers?.room_size?.value ? (
               <div>
                 <br />
                 <SmallWidthWrapper>
@@ -208,7 +212,7 @@ export default function Home() {
                 <br />
                 <Divider />
               </div>
-            ) : (<div />)}
+            ) : (<div />)} */}
             <br />
             <Button color="primary" variant="contained" size="large" onClick={() => window.location.href = "../edit-profile"}>Edit Profile</Button>
             <br />

@@ -33,6 +33,28 @@ async function getUserById(id) {
   )
 }
 
+// Get user room data by discord_id
+async function getUserRoomById(id) {
+  return query(`SELECT
+	u.discord_id,
+	u.avatar,
+	u.username,
+	u.digits,
+	u.bio,
+	r.room_id,
+	r.room_number,
+	r.floor,
+	h.name AS hall_name
+FROM
+	users u
+	LEFT JOIN rooms r USING (room_id)
+	LEFT JOIN residence_halls h USING (residence_hall_id)
+WHERE
+	u.discord_id = $1`, [id]).then(
+    res => res.rows[0]
+  )
+}
+
 // Get any users who match pronouns and grad_year
 async function getMatchEligibleUsers(pronouns, grad_year, id) {
   return query(`SELECT
@@ -56,10 +78,42 @@ WHERE
   )
 }
 
+// Update user room
+async function updateRoom(id, room_id) {
+  return query(`UPDATE users SET room_id = $2 WHERE discord_id = $1 RETURNING *`, [id, room_id]).then(
+    res => res.rows[0]
+  )
+}
+
+// Get users by room_id
+async function getUserByRoomId(room_id) {
+  return query(`SELECT
+	u.discord_id,
+	u.avatar,
+	u.username,
+	u.digits,
+	u.bio,
+	r.room_id,
+	r.room_number,
+	r.floor,
+	h.name AS hall_name
+FROM
+	users u
+	LEFT JOIN rooms r USING (room_id)
+	LEFT JOIN residence_halls h USING (residence_hall_id)
+WHERE
+	u.room_id = $1`, [room_id]).then(
+    res => res.rows
+  )
+}
+
 export {
   getUserById,
   upsertUser,
   getMatchEligibleUsers,
   updateProfile,
-  updateDormOccupancy
+  updateDormOccupancy,
+  updateRoom,
+  getUserRoomById,
+  getUserByRoomId
 }
