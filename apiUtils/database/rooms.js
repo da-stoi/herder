@@ -2,7 +2,7 @@ import query from "./index";
 
 // Get rooms by residence_hall_id
 async function getRoomsByHallId(residence_hall) {
-  return query(`SELECT * FROM rooms WHERE residence_hall_id = $1`, [residence_hall]).then(
+  return query(`SELECT * FROM rooms WHERE residence_hall_id = $1 ORDER BY room_id ASC`, [residence_hall]).then(
     res => res.rows
   )
 }
