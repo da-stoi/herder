@@ -107,6 +107,33 @@ WHERE
   )
 }
 
+// Get all user floors in hall by room_id
+async function getUserFloorsByRoomId(room_id) {
+  return query(`SELECT
+    u.discord_id,
+    u.avatar,
+    u.username,
+    u.digits,
+    u.first_name,
+    u.last_name,
+    u.pronouns,
+    u.bio,
+    a.floor,
+    a.description,
+    h.name AS hall_name
+  FROM
+    users u
+    LEFT JOIN rooms a USING (room_id)
+    LEFT JOIN rooms r USING (residence_hall_id)
+    LEFT JOIN residence_halls h USING (residence_hall_id)
+  WHERE
+    r.room_id = $1
+  ORDER BY a.floor ASC`, [room_id]).then(
+    res => res.rows
+  )
+}
+
+
 export {
   getUserById,
   upsertUser,
@@ -115,5 +142,6 @@ export {
   updateDormOccupancy,
   updateRoom,
   getUserRoomById,
-  getUserByRoomId
+  getUserByRoomId,
+  getUserFloorsByRoomId
 }

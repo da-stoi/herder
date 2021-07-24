@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, CircularProgress, createMuiTheme, Divider, FormControl, InputLabel, MenuItem, Select, ThemeProvider, Typography } from "@material-ui/core";
+import { Avatar, Button, Card, CircularProgress, createMuiTheme, Divider, FormControl, InputLabel, MenuItem, Select, ThemeProvider, Typography, Paper, Tabs, Tab, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, IconButton } from "@material-ui/core";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import styles from "../../styles/Roommates.module.css";
@@ -9,24 +9,14 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { ContentWrapper } from "../../utils/ContentWrapper";
 import styled from "styled-components";
+import ProfileDialog from "../../components/ProfileDialog";
+import { AccountCircleRounded, InfoOutlined, InfoRounded } from "@material-ui/icons";
+import pronouns from "../../utils/pronouns";
 
 const SmallWidthWrapper = styled.div`
   margin: 0 auto;
   max-width: 250px;
 `
-
-function pronouns(pronouns) {
-  switch (pronouns) {
-    case "he":
-      return "He/Him";
-    case "she":
-      return "She/Her";
-    case "they":
-      return "They/Them";
-    default:
-      return "";
-  }
-}
 
 export default function Home() {
 
@@ -37,6 +27,12 @@ export default function Home() {
   const [roommates, setRoommates] = useState();
   const [themeStyle, setThemeStyle] = useState({});
   const [darkMode, isDarkMode] = useState(useMediaPredicate("(prefers-color-scheme: dark)") ? true : false);
+  const [currentTab, setCurrentTab] = useState(0);
+  const [neighborsByFloor, setNeighborsByFloor] = useState([]);
+
+  // Profile Modal
+  const [profileDialogData, setProfileDialogData] = useState({});
+  const [profileDialogState, updateProfileDialogState] = useState(false);
 
   // Hall selection state
   const [halls, setHalls] = useState([]);
@@ -144,6 +140,46 @@ export default function Home() {
     }
   }, []);
 
+  // Get Neighbors
+  useEffect(async () => {
+
+    if (!accessToken) {
+      window.location.replace("../auth");
+    }
+
+    const neighborsReq = await axios({
+      method: "GET",
+      url: "../api/roommates/neighbors",
+      headers: {
+        "x-access-token": accessToken
+      }
+    }).catch(e => {
+      return { error: true };
+    });
+
+    if (!neighborsReq) {
+      alert("Error getting neighbors");
+      return;
+    }
+
+    if (neighborsReq.error) {
+      Cookies.remove("accessToken");
+      window.location.href = "../login?error=deauthorized";
+    }
+
+    const floors = neighborsReq.data.reduce((acc, cur) => {
+
+      if (acc[cur.floor]) {
+        acc[cur.floor] = [...acc[cur.floor], cur];
+      } else {
+        acc[cur.floor] = [cur]
+      }
+      return acc;
+    }, {});
+
+    setNeighborsByFloor(floors);
+  }, []);
+
   const handleHallSelect = async (e) => {
     setHall(e.target.value);
 
@@ -198,6 +234,15 @@ export default function Home() {
 
     window.location.reload(false);
   }
+
+  const handleTabChange = (event, newValue) => {
+    setCurrentTab(newValue);
+  };
+
+  const showProfileDialog = (data) => {
+    setProfileDialogData(data);
+    updateProfileDialogState(true);
+  };
 
   return (
     <div className={styles.container} style={themeStyle}>
@@ -273,44 +318,120 @@ export default function Home() {
         ) : (
           <ContentWrapper>
             {/* Roommate display */}
-            <Typography variant="h4">Roommates</Typography>
-            <Typography variant="h5">{roomData.hall_name}, Floor {roomData.floor}, Room {roomData.room_number}</Typography>
-            <br />
-            {Object.keys(rooms).map(room_id => {
-              const room = rooms[room_id];
-
-              return (<div>
-                <Divider />
+            <div className={styles.header}>
+              <Typography variant="h4">Roommates</Typography>
+              <br />
+              <Paper>
+                <Tabs
+                  value={currentTab}
+                  onChange={handleTabChange}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="My Roommates" />
+                  <Tab label="My Neighbors" />
+                </Tabs>
+              </Paper>
+              <br />
+              <Divider />
+              <br />
+            </div>
+            {currentTab === 0 ? (
+              <div>
+                <Typography variant="h5">{roomData.hall_name}, Floor {roomData.floor}, Room {roomData.room_number}</Typography>
+                <Typography variant="subtitle1">Only people who have entered their room in Herder will show up here.</Typography>
                 <br />
-                <Typography variant="h5">{room_id}</Typography>
-                {room.people.map(person => {
+                {Object.keys(rooms).map(room_id => {
+                  const room = rooms[room_id];
+
                   return (<div>
-                    <Card className={styles.userCard}>
-                      <Avatar style={{ width: "80px", height: "80px", margin: "0 auto" }} src={person.avatar ? `https://cdn.discordapp.com/avatars/${person.discord_id}/${person.avatar}.png` : ""} />
-                      <br />
-                      <Typography variant="h4">{person.first_name ? person.last_name ? `${person.first_name} ${person.last_name}` : person.first_name : ""}</Typography>
-                      <Typography variant="subtitle2">({pronouns(person.pronouns)})</Typography>
-                      <Typography variant="subtitle1">{person.username}#{person.digits}</Typography>
-                    </Card>
+                    <Divider />
+                    <br />
+                    <Typography variant="h5">{room_id}</Typography>
+                    {room.people.map(person => {
+                      return (<div>
+                        <Card className={styles.userCard}>
+                          <Avatar style={{ width: "80px", height: "80px", margin: "0 auto" }} src={person.avatar ? `https://cdn.discordapp.com/avatars/${person.discord_id}/${person.avatar}.png` : ""} />
+                          <br />
+                          <Typography variant="h4">{person.first_name ? person.last_name ? `${person.first_name} ${person.last_name}` : person.first_name : ""}</Typography>
+                          <Typography variant="subtitle2">({pronouns(person.pronouns)})</Typography>
+                          <Typography variant="subtitle1">{person.username}#{person.digits}</Typography>
+                          <br />
+                          <Button variant="outlined" onClick={() => showProfileDialog(person)}>Full Profile</Button>
+                        </Card>
+                      </div>)
+                    })}
                   </div>)
                 })}
-              </div>)
-            })}
-            <Divider />
-            <br />
-            {roomData.server_invite ? (
-              <div>
-                <Button color="secondary" variant="contained" size="large" onClick={() => window.location.href = `https://discord.gg/${roomData.server_invite}`}>Join {roomData.hall_name} Discord</Button>
+                <Divider />
+                <br />
+                {roomData.server_invite ? (
+                  <div>
+                    <Button color="secondary" variant="contained" size="large" onClick={() => window.location.href = `https://discord.gg/${roomData.server_invite}`}>Join {roomData.hall_name} Discord</Button>
+                    <br />
+                    <br />
+                  </div>
+                ) : (<div />)}
+                <Button color="primary" variant="contained" size="large" onClick={() => updateRoom(null)}>Leave Room</Button>
                 <br />
                 <br />
               </div>
-            ) : (<div />)}
-            <Button color="primary" variant="contained" size="large" onClick={() => updateRoom(null)}>Leave Room</Button>
-            <br />
-            <br />
+            ) : (
+              <div>
+                <Typography variant="h5">{roomData.hall_name}</Typography>
+                <Typography variant="subtitle1">Only people who have entered their room in Herder will show up here.</Typography>
+                <br />
+                <Divider />
+                <br />
+                <TableContainer component={Paper}>
+                  <Table aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <Avatar aria-label="profile picture">
+                            A
+                          </Avatar>
+                        </TableCell>
+                        <TableCell align="left">Name</TableCell>
+                        <TableCell align="left">Floor</TableCell>
+                        <TableCell align="right">More Info</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {Object.keys(neighborsByFloor).map(floor => {
+                        const neighbors = neighborsByFloor[floor];
+                        return neighbors.map(neighbor => {
+                          return (
+                            <TableRow key={neighbor.name}>
+                              <TableCell component="th" scope="row">
+                                <Avatar aria-label="profile picture" src={neighbor.avatar ? `https://cdn.discordapp.com/avatars/${neighbor.discord_id}/${neighbor.avatar}.png` : ""}>
+                                  {neighbor.first_name ? neighbor.last_name ? `${neighbor.first_name.slice(0, 1)}${neighbor.last_name.slice(0, 1)}` : neighbor.first_name.slice(0, 1) : neighbor.username.slice(0, 1)}
+                                </Avatar>
+                              </TableCell>
+                              <TableCell align="left">{neighbor.first_name ? neighbor.last_name ? `${neighbor.first_name} ${neighbor.last_name}` : neighbor.first_name : 'n/a'}</TableCell>
+                              <TableCell align="left">{neighbor.floor}</TableCell>
+                              <TableCell align="right">
+                                <IconButton onClick={() => showProfileDialog(neighbor)}>
+                                  <InfoOutlined />
+                                </IconButton>
+                              </TableCell>
+                            </TableRow>
+                          )
+                        })
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <br />
+              </div>
+            )}
           </ContentWrapper>
         )
         }
+        {/* Profile Dialog */}
+        <ProfileDialog user={profileDialogData} state={profileDialogState}
+          updateProfileDialogState={updateProfileDialogState} />
         <BottomNav className="mobile-nav" />
       </ThemeProvider >
     </div >

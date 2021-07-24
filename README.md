@@ -39,7 +39,7 @@ __Query Parameters__
 ### Match
 > __GET__ `/match`
 
-Returns JSON object of matching users with their percent match.
+Returns JSON array of matching users with their percent match.
 
 Query Parameters
 |Param      |Description    |Required|
@@ -67,17 +67,22 @@ Returns updated profile.
 ### Get Residence Halls
 > __GET__ `/halls`
 
-Returns JSON object of all residence halls.
+Returns JSON array of all residence halls.
 
-### Match
+### Get Rooms
 > __GET__ `/halls/{hall_id}/rooms`
 
-Returns JSON object of all rooms in a specified residence hall.
+Returns JSON array of all rooms in a specified residence hall.
 
 Parameters
 |Param      |Description      |Required|
 |-----------|-----------------|--------|
 |`hall_id`  |Residence Hall Id|`true`  |
+
+### Match
+> __GET__ `/roommates/neighbors`
+
+Returns JSON array of all users in the same residence hall.
 
 ---
 <p align="center">

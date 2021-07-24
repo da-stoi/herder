@@ -73,13 +73,24 @@ export default function Home() {
             <li>That's it! Now you can see a list of all the people that have marked themselves as being in the same room.</li>
           </ol>
           <Divider />
+          <Typography variant="h6">How to see your neighbors</Typography>
+          <ol>
+            <li>Click on the Roommates tab at the bottom.</li>
+            <br />
+            <li>If you haven't selected your room yet, select your residence hall and room.</li>
+            <br />
+            <li>Select the "My Neighbors" tab at the top.</li>
+            <br />
+            <li>That's it! Now you can see a list of all the people in your building. You can click on the info icon to see their full profile.</li>
+          </ol>
+          <Divider />
           <Typography variant="h6">What's new?</Typography>
           <ul>
+            <li><b>Neighbors Tab!</b> You can now see a list of all the people in your building.</li>
+            <br />
             <li><b>Roommate View!</b> You can now see a list of all of your roommates.</li>
             <br />
             <li><b>Multi-Pronoun Search!</b> You can now select multiple pronouns to search by. Results will be mixed together in match percentage order.</li>
-            <br />
-            <li><b>Dorm Occupancy!</b> You can now let others know how many more roommates you are looking for. (And you won't show up if you've found them all.)</li>
             <br />
             <li><b>Approved Server Checking!</b> Herder now makes sure that only people from approved Discord servers can sign up.</li>
           </ul>
