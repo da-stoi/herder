@@ -50,12 +50,12 @@ export default function Home() {
           <br />
           <Divider />
           <Typography variant="h6">Herder is a student-made roommate matching website.</Typography>
-          <Typography variant="subtitle1">Things may break! It would be super helpful to report an issue if you see one. You can email me at <Link href="mailto:daniel@stoiber.network">daniel@stoiber.network</Link> or DM me on Discord (da_stoi#4834)</Typography>
+          <Typography variant="subtitle1">If you come across any issues or have any questions feel free to shoot me a DM on Discord (da_stoi#4834)</Typography>
           <br />
           <Divider />
           <Typography variant="h6">How to find new roommates</Typography>
           <ol>
-            <li>Make sure you are on one of the approved Discord servers. (WPI Main or WPI Class of 2025) Send me a DM (da_stoi#4834) if you need an invite link. Then <Link href="../login">login with Discord</Link>.</li>
+            <li>Make sure you are on one of the approved Discord servers. Send me a DM (da_stoi#4834) if you need an invite link. Then <Link href="../login">login with Discord</Link>.</li>
             <br />
             <li>Go to <Link href="../profile"><b>Profile</b></Link>, and select <b>Edit Profile</b>. Then fill in as many questions as possible and <b>press save changes</b>.</li>
             <br />
@@ -86,6 +86,8 @@ export default function Home() {
           <Divider />
           <Typography variant="h6">What's new?</Typography>
           <ul>
+            <li><b>Welcome Class of 2026!</b> Members of the Class of 2026 Discord server are now able to login to Herder.</li>
+            <br />
             <li><b>Neighbors Tab!</b> You can now see a list of all the people in your building.</li>
             <br />
             <li><b>Roommate View!</b> You can now see a list of all of your roommates.</li>

@@ -70,6 +70,7 @@ export default function Home() {
           <Typography variant="subtitle1"><LockOpenRounded className={styles.iconWrap} style={{ color: muiTheme.success.main }} /> (M) Current dorm occupancy.</Typography>
           <Typography variant="subtitle1"><LockOpenRounded className={styles.iconWrap} style={{ color: muiTheme.success.main }} /> (M) Graduation year.</Typography>
           <Typography variant="subtitle1"><LockOpenRounded className={styles.iconWrap} style={{ color: muiTheme.success.main }} /> (M) Pronouns.</Typography>
+          <Typography variant="subtitle1"><LockRounded className={styles.iconWrap} style={{ color: muiTheme.info.main }} /> (M) Room Number. (Only your floor number is shared with your neighbors.)</Typography>
           <Typography variant="subtitle1"><LockRounded className={styles.iconWrap} style={{ color: muiTheme.info.main }} /> (A) Service join date.</Typography>
           <br />
           <Divider />
